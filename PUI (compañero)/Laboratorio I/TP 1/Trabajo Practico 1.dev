@@ -1,0 +1,102 @@
+[Project]
+filename=Trabajo Practico 1.dev
+name=Trabajo Practico 1
+Type=0
+Ver=2
+ObjFiles=
+Includes=
+Libs=
+PrivateResource=
+ResourceIncludes=
+MakeIncludes=
+Compiler=
+CppCompiler=
+Linker=
+IsCpp=0
+Icon=
+ExeOutput=
+ObjectOutput=
+LogOutput=
+LogOutputEnabled=0
+OverrideOutput=0
+OverrideOutputName=
+HostApplication=
+UseCustomMakefile=0
+CustomMakefile=
+CommandLine=
+Folders="Ejercicio 1","Ejercicio 2","Ejercicio 3","Ejercicio 6"
+IncludeVersionInfo=0
+SupportXPThemes=0
+CompilerSet=0
+CompilerSettings=0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;1;0;0;0;0;0;4;0;0;0
+UnitCount=5
+
+[VersionInfo]
+Major=1
+Minor=0
+Release=0
+Build=0
+LanguageID=1033
+CharsetID=1252
+CompanyName=
+FileVersion=
+FileDescription=Developed using the Dev-C++ IDE
+InternalName=
+LegalCopyright=
+LegalTrademarks=
+OriginalFilename=
+ProductName=
+ProductVersion=
+AutoIncBuildNr=0
+SyncProduct=1
+
+[Unit1]
+FileName=Ejercicio 2\main.c
+CompileCpp=0
+Folder=Ejercicio 2
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit2]
+FileName=Ejercicio 1\main.c
+CompileCpp=0
+Folder=Ejercicio 1
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit3]
+FileName=Ejercicio 3\main-a.c
+CompileCpp=0
+Folder=Ejercicio 3
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit4]
+FileName=Ejercicio 3\main-b.c
+CompileCpp=0
+Folder=Ejercicio 3
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit5]
+FileName=Ejercicio 6\main.c
+CompileCpp=0
+Folder=Ejercicio 6
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+

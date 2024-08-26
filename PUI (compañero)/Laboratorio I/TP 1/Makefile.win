@@ -1,0 +1,40 @@
+# Project: Trabajo Practico 1
+# Makefile created by Embarcadero Dev-C++ 6.3
+
+CPP      = g++.exe
+CC       = gcc.exe
+WINDRES  = windres.exe
+OBJ      = "Ejercicio\ 2/main.o" "Ejercicio\ 1/main.o" "Ejercicio\ 3/main-a.o" "Ejercicio\ 3/main-b.o" "Ejercicio\ 6/main.o"
+LINKOBJ  = "Ejercicio 2/main.o" "Ejercicio 1/main.o" "Ejercicio 3/main-a.o" "Ejercicio 3/main-b.o" "Ejercicio 6/main.o"
+LIBS     = -L"C:/Program Files (x86)/Embarcadero/Dev-Cpp/TDM-GCC-64/lib" -L"C:/Program Files (x86)/Embarcadero/Dev-Cpp/TDM-GCC-64/x86_64-w64-mingw32/lib" -static-libgcc -mwindows -pg
+INCS     = -I"C:/Program Files (x86)/Embarcadero/Dev-Cpp/TDM-GCC-64/include" -I"C:/Program Files (x86)/Embarcadero/Dev-Cpp/TDM-GCC-64/x86_64-w64-mingw32/include" -I"C:/Program Files (x86)/Embarcadero/Dev-Cpp/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/9.2.0/include"
+CXXINCS  = -I"C:/Program Files (x86)/Embarcadero/Dev-Cpp/TDM-GCC-64/include" -I"C:/Program Files (x86)/Embarcadero/Dev-Cpp/TDM-GCC-64/x86_64-w64-mingw32/include" -I"C:/Program Files (x86)/Embarcadero/Dev-Cpp/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/9.2.0/include" -I"C:/Program Files (x86)/Embarcadero/Dev-Cpp/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/9.2.0/include/c++"
+BIN      = "Trabajo Practico 1.exe"
+CXXFLAGS = $(CXXINCS) -pg
+CFLAGS   = $(INCS) -pg
+DEL      = C:\Program Files (x86)\Embarcadero\Dev-Cpp\DevCpp.exe INTERNAL_DEL
+
+.PHONY: all all-before all-after clean clean-custom
+
+all: all-before $(BIN) all-after
+
+clean: clean-custom
+	${DEL} $(OBJ) $(BIN)
+
+$(BIN): $(OBJ)
+	$(CC) $(LINKOBJ) -o $(BIN) $(LIBS)
+
+"Ejercicio\ 2/main.o": Ejercicio\ 2/main.c
+	$(CC) -c "Ejercicio 2/main.c" -o "Ejercicio 2/main.o" $(CFLAGS)
+
+"Ejercicio\ 1/main.o": Ejercicio\ 1/main.c
+	$(CC) -c "Ejercicio 1/main.c" -o "Ejercicio 1/main.o" $(CFLAGS)
+
+"Ejercicio\ 3/main-a.o": Ejercicio\ 3/main-a.c
+	$(CC) -c "Ejercicio 3/main-a.c" -o "Ejercicio 3/main-a.o" $(CFLAGS)
+
+"Ejercicio\ 3/main-b.o": Ejercicio\ 3/main-b.c
+	$(CC) -c "Ejercicio 3/main-b.c" -o "Ejercicio 3/main-b.o" $(CFLAGS)
+
+"Ejercicio\ 6/main.o": Ejercicio\ 6/main.c
+	$(CC) -c "Ejercicio 6/main.c" -o "Ejercicio 6/main.o" $(CFLAGS)

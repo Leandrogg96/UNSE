@@ -1,0 +1,69 @@
+// PROTOTIPOS
+void menu();
+void sumar(int numero_a, int numero_b);
+void restar(int numero_a, int numero_b);
+void multiplicar(int numero_a, int numero_b);
+void dividir(int numero_a, int numero_b);
+ 
+#include <stdio.h>
+ 
+int main()
+{
+	//Llama a la funcion menu
+	menu();
+ 
+	return 0;
+}
+ 
+void menu(){
+ 
+	int opc;
+	printf("1. Sumar");
+	printf("\n2. Restar");
+	printf("\n3. Multiplicar");
+	printf("\n4. Dividir");
+
+	printf("\nDigite su opcion: ");
+	scanf("%i" , &opc); 
+
+	int numero_a , numero_b;
+	printf("\nDigite valor para numero1: ");
+	scanf("%i" , &numero_a);
+ 
+	printf("\nDigite valor para numero2: ");
+	scanf("%i" , &numero_b);
+ 
+	switch (opc)
+	{
+		case 1: sumar(numero_a,numero_b);
+		break;
+		case 2: restar(numero_a,numero_b);
+		break;
+		case 3: multiplicar(numero_a,numero_b);
+		break;
+		case 4: dividir(numero_a,numero_b);
+		break;
+		default:
+		printf("Opcion invalida");
+	}	
+}
+ 
+void sumar(int numero_a, int numero_b)
+{
+printf("El resultado de su calculo: %i " , numero_a + numero_b);
+}
+ 
+void restar(int numero_a, int numero_b)
+{
+printf("El resultado de su calculo: %i " , numero_a - numero_b);
+}
+ 
+void multiplicar(int numero_a, int numero_b)
+{
+printf("El resultado de su calculo: %i " , numero_a * numero_b);
+}
+ 
+void dividir(int numero_a, int numero_b)
+{
+printf("El resultado de su calculo: %i " , numero_a / numero_b);
+}
