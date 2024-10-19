@@ -1,0 +1,133 @@
+--1
+SHOW DATABASES;
+
+--2
+CREATE DATABASE Almacen;
+
+--3
+USE Almacen;
+
+--4	
+CREATE TABLE Almacenes (
+		almCodigo int primary key AUTO_INCREMENT, 
+		almLugar varchar(100) not null, 
+		almCapacidad int DEFAULT 0, 
+		almFechaAlta date not null
+);
+
+--5
+CREATE TABLE Cajas (
+		cajNumReferencia char(5) primary key, 
+		cajContenido varchar(100), 
+		cajValor decimal(15,2) DEFAULT 100, 
+		Almacen int
+);
+
+--6
+CREATE TABLE Clientes (
+		cliCodigo int primary key AUTO_INCREMENT,
+		cliDNI varchar(8) UNIQUE,
+		cliNombre char(40) not null,
+		cliFecNac date not null,
+		cliDomicilio varchar(50),
+		cliProvincia varchar(50),
+		cliTelefono varchar(32),
+		cliCodPostal int,
+		cliFechaAlta date not null
+);
+
+--7
+CREATE TABLE Factura (
+		facPtoVenta int not null,
+		facNroFactura int not null,
+		cliCodigo int not null,
+		facNombre varchar(100) not null,
+		facDomicilio varchar(255),
+		facFechaYHora datetime not null,
+		facCUIT varchar(17),
+		facCondicionVenta varchar(50),
+		facIVA decimal(5,2) not null,
+		PRIMARY KEY(facPtoVenta, facNroFactura)
+);
+
+--8
+CREATE TABLE FacturaDetalle (
+		facPtoVenta int not null,
+		facNroFactura int not null,
+		facDetLinea int not null,
+		facDetCantidad decimal(6,2) not null,
+		facDetDetalle varchar(255) not null,
+		facDetPrecUnitario decimal(9,2) not null,
+		PRIMARY KEY(facNroFactura, facDetLinea),
+    		FOREIGN KEY(facPtoVenta, facNroFactura) REFERENCES Factura(facPtoVenta, facNroFactura)
+);
+
+--9
+SHOW TABLES;
+
+--10
+INSERT INTO Clientes (cliDNI, cliNombre, cliFecNac, cliDomicilio, cliProvincia, cliTelefono, cliCodPostal, cliFechaAlta) VALUES
+('12334455', 'Perez, Carlos', '1999-02-13', 'Avenida Roca 111', 'Santiago del Estero', '385-4212121', 4200, '2023-02-11'),
+('34123411', 'Newman, Juan Manuel', '1990-08-21', 'Salta 381', 'Santiago del Estero', '385-4234411', 4200, '2023-01-01'),
+('9881122', 'Santillan, Javier', '1971-05-30', 'Avenida Belgrano Sur 881', 'Santiago del Estero', '385-5111122', 4200, '2021-11-29'),
+('44787621', 'Villalobo, Marta', '2002-07-03', 'Sarmiento 11', 'Santiago del Estero', '385-3451124', 4200, '2024-06-27'),
+('27881900', 'Stogan, Martin', '1972-08-30', 'Santiago 1101', 'Tucuman', '381-6781221', 4000, '2020-12-09'),
+('26117788', 'Traviatta, galleta', '1980-04-05', 'Julio Roca 2888', 'Buenos Aires', '11-12341166', 1000, '2019-01-01'),
+('18998833', 'Sprite, Jimena', '1967-09-22', 'Virgen 1111', 'Catamarca', '383-6212121', 4700, '2009-12-20'),
+('1512390', 'Ayudin, Sebastian', '1911-01-31', 'Pellegrini 1999', 'Santiago del Estero', '385-4212121', 4200, '2024-02-22'),
+('21233485', 'Sugus, Maria', '1972-11-23', 'San Martin 109', 'Catamarca', '383-2218229', 4700, '2003-03-30'),
+('28990011', 'Torres, Julia', '1987-06-11', 'Santa Fe 123', 'Buenos Aires', '11-45677890', 1700, '2023-12-01');
+
+--11
+INSERT INTO Almacenes (almLugar, almCapacidad, almFechaAlta) 
+VALUES
+('Av. Madre de Ciudades 3559 - Santiago del Estero',1500,'2013-03-30'),
+('Av. Rivadavia 16714 - Buenos Aires', 2455, '2014-06-05'),
+('Suipacha 1250 - Tucuman', 2015, '203-03-30'),
+('Lavalle 3040 - Santiago del Estero', 1456, '2014-07-26'),
+('Diego de Rojas 620 - Catamarca', 469, '2015-02-23');
+
+--12
+INSERT INTO Cajas (cajNumReferencia, cajContenido, cajValor, Almacen) VALUES
+('SE001', 'Libros', 355.78, 1),
+('TC001','Vajilla', 2456.66, 3),
+('SE002', 'Catucheras', 1557.00, 1),
+('CA001', 'Expedientes 2012', 300.00, 5),
+('DI001', 'Computadoras', 289111, 2),
+('KE002', 'Bolsas', 15, 3),
+('MA003', 'Mochilas', 1500, 1),
+('PP006', 'Celulares', 9999, 2),
+('PO001', 'Mesas', 899, 4),
+('IT009', 'Camas', 781, 4),
+('NQ002', 'Pinceles', 28, 1),
+('XI003', 'Camisetas futbol', 666, 7),
+('AA001', 'Zapatillas NIKE', 1025, 7),
+('LK008', 'Paracetamol 500', 8, 6);
+
+--13
+SELECT * FROM Almacenes;
+
+--14
+SELECT * FROM Clientes;
+
+--15
+SELECT cliCodigo, cliDNI, cliNombre FROM Clientes ORDER BY cliNombre ASC;
+
+--16
+SELECT cliDNI, cliNombre, cliFecNac, cliFechaAlta FROM Clientes ORDER BY cliFechaAlta ASC;
+
+--17
+SELECT * FROM Almacenes ORDER BY almFechaAlta DESC, almLugar ASC;
+
+--18
+SELECT DISTINCT almLugar FROM Almacenes;
+
+--19
+SELECT cliNombre, CONCAT(cliDomicilio, '-', cliProvincia) AS domicilioProvincia FROM Clientes;
+
+--20
+SELECT * FROM Clientes WHERE TIMESTAMPDIFF(YEAR, cliFecNac, CURDATE()) > 30;
+
+
+
+

@@ -1,0 +1,12 @@
+--1
+CREATE VIEW CajasCompleto AS SELECT C.cajNumReferencia, C.cajContenido, C.Almacen, A.almLugar FROM Cajas C JOIN Almacenes A ON C.Almacen = A.almCodigo WHERE A.almFechaAlta >= '2014-03-01';
+
+--2
+CREATE VIEW Ventas AS SELECT CONCAT(F.facPtoVenta, '-', F.facNroFactura) AS Comprobante, F.facFechaYHora, F.cliCodigo, FD.facDetCantidad AS Cantidad, FD.facDetPrecUnitario AS Precio_Unitario, CONCAT(C.cajNumReferencia, ' - ', FD.facDetDetalle) AS Detalle, (FD.facDetPrecUnitario * FD.facDetCantidad) AS Total
+FROM Factura F JOIN FacturaDetalle FD ON F.facPtoVenta = FD.facPtoVenta AND F.facNroFactura = FD.facNroFactura JOIN Cajas C ON CAST(FD.tipoCajaId AS CHAR) = C.cajNumReferencia; 
+
+--3
+CREATE VIEW VentasFiltrada AS SELECT * FROM Ventas WHERE facFechaYHora > '2011-02-14' AND cliCodigo != 1;
+
+--4
+CREATE VIEW VentasporCliente AS SELECT cliCodigo, COUNT(*) AS Cantidad_Ventas FROM Factura GROUP BY cliCodigo;

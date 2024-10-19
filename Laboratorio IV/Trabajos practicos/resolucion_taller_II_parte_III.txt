@@ -1,0 +1,117 @@
+--1
+ UPDATE Cajas SET cliCod = 7 WHERE Almacen = 7;
+
+ UPDATE Cajas SET cliCod = 9 WHERE Almacen = 5;
+
+ UPDATE Cajas SET cliCod = 1 WHERE Almacen = 4;
+
+ UPDATE Cajas SET cliCod = 5 WHERE Almacen = 3;
+
+ UPDATE Cajas SET cliCod = 5 WHERE Almacen = 6;
+
+ UPDATE Cajas SET cliCod = 2 WHERE Almacen = 1;
+
+ UPDATE Cajas SET cliCod = 10 WHERE Almacen = 2;
+
+--2
+SELECT a.almCodigo, c.cajNumReferencia, a.almLugar, c.cajValor FROM Cajas AS c JOIN Almacenes AS a ON c.Almacen = a.almCodigo;
+
+--3
+INSERT INTO Cajas (cajNumReferencia, cajContenido, cajValor, cliCod, Almacen) VALUES ('SE020', 'Engranajes Reloj', 3500, 1, 35);
+
+--Respuesta: No es posible insertar el registro en la tabla cajas ya que la clave foranea 'Almacen' no cumple con la restriccion de integridad referencial. El valor '35' que se intenta insertar en la columna 'Almacen' en la tabla cajas, no tiene un valor correspondiente en la tabla 'Almacenes' 
+
+--4
+CREATE INDEX BuscaAlmacenes ON Almacenes (almLugar(5));
+
+--5
+INSERT INTO Factura (facPtoVenta, facNroFactura, cliCodigo, facNombre, facDomicilio, facFechaYHora, facCUIT, facCondicionVenta, facIVA)
+VALUES 
+(1, 1010, 1, 'Cliente J', 'Republica de Siria 711', '2017-02-12 09:11:00', '30-12345678-9', 'Pagado', 31.00),
+(1, 1011, 1, 'Cliente K', 'Diego de Rojas 134', '2022-11-30 10:59:00', '41-98124323-9', 'Pagado', 199.00),
+(1, 1012, 1, 'Cliente L', 'Av. Roca Sur 111', '2021-01-31 11:50:00', '17-90123411-9', 'Pagado', 312.00),
+(2, 1013, 2, 'Cliente M', 'Independencia 999', '2019-03-01 07:41:00', '25-62819451-9', 'Pendiente', 113.00),
+(2, 1014, 3, 'Cliente N', 'Francisco de Viano 811', '2018-05-17 01:13:00', '11-16839124-1', 'Pendiente', 99.00),
+(2, 1015, 4, 'Cliente O', 'Muñecas 80', '2023-08-20 02:22:00', '45-98235678-1', 'Pagado', 282.00),
+(2, 1016, 5, 'Cliente P', 'Perú 1563', '2024-06-09 20:00:00', '29-54321356-0', 'Pagado', 119.00),
+(2, 1017, 4, 'Cliente Q', 'Pasaje Martin Fierro 99', '2020-03-10 23:31:00', '14-13544676-8', 'Pendiente', 88.00);
+
+--6
+CREATE TABLE TipoCaja(tipoCajaId int PRIMARY KEY, tipoCajaPrecio DECIMAL(10,2));
+
+INSERT INTO TipoCaja (tipoCajaId, tipoCajaPrecio) VALUES (1, 5.60), (2, 80.40), (3, 47.00), (4, 39.10), (5, 18.00);
+
+--7
+INSERT INTO FacturaDetalle (facPtoVenta, facNroFactura, facDetLinea, facDetCantidad, tipoCajaId, facDetPrecUnitario, facDetDetalle)
+VALUES
+(1, 1010, 1, 5, 1, 5.60, 'Producto J'),
+(1, 1011, 2, 2, 1, 5.60, 'Producto K'),
+(1, 1012, 1, 3, 2, 80.40, 'Producto L'),
+(2, 1004, 2, 4, 1, 5.60, 'Producto U'),
+(2, 1017, 1, 4, 4, 39.10, 'Producto Q'),
+(2, 1005, 3, 3, 4, 39.10, 'Producto V'),
+(2, 1006, 3, 2, 2, 80.40, 'Producto W'),
+(2, 1013, 1, 2, 2, 80.40, 'Producto M'),
+(2, 1014, 2, 5, 3, 47.00, 'Producto N'),
+(2, 1015, 4, 6, 4, 39.10, 'Producto O'),
+(2, 1016, 5, 4, 1, 5.60, 'Producto P'),
+(3, 1007, 4, 4, 3, 47.00, 'Producto X'),
+(3, 1008, 1, 3, 5, 18.00, 'Producto Y'),
+(3, 1009, 2, 2, 2, 80.40, 'Producto Z'),
+(1, 1010, 5, 2, 2, 80.40, 'Producto AA'),
+(1, 1011, 3, 2, 2, 80.40, 'Producto AB'),
+(1, 1011, 2, 2, 2, 80.40, 'Producto AC');
+
+--8
+SELECT DATE_FORMAT(f.facFechaYHora, '%d/%m/%Y') AS 'Fecha Compbte', CONCAT(c.cliNombre, ' ', c.cliApellido) AS 'Apellido y Nombre Cliente',     CONCAT(f.facPtoVenta, '-', f.facNroFactura) AS 'Num Compbte' FROM Factura AS f JOIN Clientes AS c ON f.cliCodigo = c.cliCodigo WHERE f.facFechaYHora BETWEEN '2009-02-13' AND '2024-02-17' ORDER BY f.facFechaYHora;
+
+--9
+SELECT DATE_FORMAT(f.facFechaYHora, '%d/%m/%Y') AS 'Fecha Compbte', f.facPtoVenta AS 'PtoVta', f.facNroFactura AS 'Num Compbte', fd.facDetDetalle AS 'Detalle', fd.facDetPrecUnitario AS 'Precio Alquiler', fd.facDetCantidad AS 'Cant. Alquilada' FROM Factura AS f JOIN FacturaDetalle AS fd ON f.facPtoVenta = fd.facPtoVenta AND f.facNroFactura = fd.facNroFactura WHERE f.cliCodigo = 1 ORDER BY f.facFechaYHora;
+
+--10
+DELETE FROM Factura WHERE facPtoVenta = 2 AND facNroFactura = 1005;
+
+   --Respuesta:
+      --a. Uso de eliminacion en cascada: Como en la definicion de la clave foranea en 'FacturaDetalle' no se configuro la opcion de eliminacion en cascada, no es posible eliminar el registro en 'Factura' ya que existe un registro relacionado con las mismas claves en 'FacturaDetalle'. Se podria modificar la restriccion para permitir esto.
+
+      --b. Perdida de Datos: Al eliminar el registro de la tabla Factura, se perderan todos los datos asociados a esa factura, incluyendo la fecha, el cliente, la condicion de venta y el IVA. Deberiamos repensar la eliminacion y como esta podria impactar en nuestra base de datos.
+
+      --c. Integridad Referencial: La eliminacion de este registro puede afectar la integridad referencial de la base de datos. Es importante que nos aseguremos de que no haya otros registros que dependan de este comprobante antes de realizar la eliminacion.
+
+--11
+DELETE FROM Almacenes WHERE almCodigo = 2; 
+
+   --Respuesta:
+      --a. Se produce un error ya que al intentar eliminar el registro del almacen con 'almCodigo = 2' hay registros en la tabla Cajas que hacen referencia a ese almacen a traves de una clave foranea. Es por eso que no es posible eliminar el almacen hasta que no se elimine o modifique los registros que dependen de el.
+
+      --b. En caso de eliminacion: Al eliminar los registros de la tabla Cajas, se perdera la informacion relacionada con esas cajas. Esto puede incluir detalles sobre el contenido, valor y cualquier cliente asociado. Es por esto que nos debemos asegurar que esta accion es lo que realmente se necesita y si es posible hacer una copia de seguridad de esos datos antes de eliminarlos.
+
+--12
+SELECT c.cliNombre, c.cliApellido FROM Clientes AS c LEFT JOIN Factura AS f ON c.cliCodigo = f.cliCodigo WHERE f.facFechaYHora < '2024-01-01' OR f.cliCodigo IS NULL;
+
+--13
+UPDATE Clientes SET cliProvincia = 'Catamarca' WHERE cliApellido LIKE 'C%';
+
+--14
+UPTADE Clientes SET cliTelefono = '381-6127338', cliCodPostal = 4103, cliDomicilio = 'Viamonte 2367' WHERE cliCodigo = 8;
+
+--15
+UPDATE Cajas SET cajValor = cajValor * 1.18;
+
+--16
+UPDATE FacturaDetalle AS fd JOIN Factura AS f ON fd.facPtoVenta = f.facPtoVenta AND fd.facNroFactura = f.facNroFactura SET fd.facDetPrecUnitario = fd.facDetPrecUnitario + 27 WHERE f.facFechaYHora < '2010-12-20';
+
+--17
+UPDATE Cajas AS c JOIN Almacenes AS a ON c.Almacen = a.almCodigo SET c.cajValor = c.cajValor + 167 WHERE a.almFechaAlta < '2014-01-01';
+
+--18
+UPDATE Clientes AS c JOIN (SELECT cliCod, COUNT(*) AS cantCajas FROM Cajas GROUP BY cliCod) cajaCount ON c.cliCodigo = cajaCount.cliCod SET c.cliFechaAlta = CURDATE() WHERE c.cliProvincia = 'Buenos Aires' AND cajaCount.cantCajas > 25;
+
+--19
+UPDATE Factura SET facFechaYHora = CURDATE() WHERE facFechaYHora IS NULL;
+
+--20
+DELETE FROM Clientes WHERE cliProvincia = 'Tucuman';
+
+--21
+DELETE FROM Factura WHERE cliCodigo = 1 AND facFechaYHora BETWEEN '2001-05-21 14:00:00' AND '2001-07-15 10:30:00';

@@ -1,0 +1,31 @@
+--1
+ALTER TABLE Cajas ADD COLUMN cliCod INT NULL, ADD CONSTRAINT fk_cliCod FOREIGN KEY (cliCod) REFERENCES Clientes(cliCodigo) ON DELETE CASCADE;
+
+ALTER TABLE Cajas MODIFY COLUMN Almacen INT NOT NULL, ADD CONSTRAINT fk_almacen FOREIGN KEY (Almacen) REFERENCES Almacenes(almCodigo);
+
+--2
+ALTER TABLE Factura ADD CONSTRAINT fk_clientes FOREIGN KEY (cliCodigo) REFERENCES Clientes(cliCodigo);
+
+--3
+ALTER TABLE Clientes ADD COLUMN cliApellido VARCHAR(50) NOT NULL AFTER cliNombre;
+
+--4
+ALTER TABLE Clientes MODIFY COLUMN cliNombre VARCHAR(50) NOT NULL;
+
+--5.a
+ALTER TABLE FacturaDetalle MODIFY COLUMN facPtoVenta INT NOT NULL FIRST;
+
+--5.b
+ALTER TABLE FacturaDetalle ADD COLUMN tipoCajaId INT AFTER facDetCantidad;
+
+--5.c
+ALTER TABLE FacturaDetalle DROP PRIMARY KEY;
+
+ALTER TABLE FacturaDetalle ADD PRIMARY KEY(facPtoVenta, facNroFactura, facDetLinea);
+
+--5.d
+ALTER TABLE FacturaDetalle ADD CONSTRAINT fk_factura FOREIGN KEY(facPtoVenta, facNroFactura) REFERENCES Factura(facPtoVenta, facNroFactura) ON DELETE CASCADE;
+
+--6
+ALTER TABLE Factura DROP FOREIGN KEY fk_clientes;
+

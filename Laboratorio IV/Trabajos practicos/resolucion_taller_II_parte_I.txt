@@ -1,0 +1,70 @@
+--1
+USE Almacen;
+
+--2
+SELECT MAX(cajValor) AS MayorValor FROM Cajas;
+
+--3
+SELECT MIN(almFechaAlta) AS MenorFechaAlta FROM Almacenes;
+
+--4
+SELECT cajNumReferencia, cajContenido, cajValor FROM Cajas;
+
+--5
+SELECT * FROM Cajas WHERE cajValor > 360;
+
+--6
+SELECT AVG(cajaValor) AS ValorMedio FROM Cajas;
+
+--7
+SELECT Almacen, AVG(cajValor) AS ValorMedio FROM Cajas GROUP BY Almacen;
+
+--8
+SELECT Almacen FROM Cajas GROUP BY Almacen HAVING AVG(cajValor) > 360;
+
+--9
+INSERT INTO Factura (facPtoVenta, facNroFactura, cliCodigo, facNombre, facDomicilio, facFechaYHora, facCUIT, facCondicionVenta, facIVA) 
+VALUES
+(1, 1001, 101, 'Cliente A', 'Calle Falsa 123', '2024-10-10 08:30:00', '20-12345678-9', 'Pagado', 105.50),
+(1, 1002, 102, 'Cliente B', 'Av. de los Alamos 742', '2024-01-29 09:00:00', '20-87654321-0', 'Pendiente', 200.75),
+(1, 1003, 103, 'Cliente C', 'Calle Luna 456', '2024-12-12 14:45:00', '30-34567890-1', 'Pagado', 150.00),
+(2, 1004, 104, 'Cliente D', 'Calle Maradona 789', '2024-01-13 11:15:00', '27-23456789-2', 'Pagado', 250.30),
+(2, 1005, 105, 'Cliente E', 'Calle Sol 101', '2024-07-31 12:00:00', '27-56789012-3', 'Pendiente', 120.20),
+(2, 1006, 106, 'Cliente F', 'Av. los Pinos 818', '2024-04-14 12:00:00', '21-56899012-3', 'Pendiente', 100.30),
+(3, 1007, 107, 'Cliente G', 'Av. las Estrellas 202', '2024-01-01 16:30:00', '30-67890123-4', 'Pagado', 189.90),
+	
+INSERT INTO FacturaDetalle (facPtoVenta, facNroFactura, facDetLinea, facDetCantidad, facDetDetalle, facDetPrecUnitario) 
+VALUES (1, 1001, 1, 5.00, 'Producto A', 200.00),
+(1, 1002, 2, 3.00, 'Producto B', 150.50),
+(1, 1003, 3, 2.00, 'Producto C', 350.00),
+(2, 1004, 1, 1.00, 'Producto D', 450.00),
+(2, 1005, 2, 4.00, 'Producto E', 250.25),
+(2, 1006, 4, 6.00, 'Producto F', 600.00),
+(3, 1007, 2, 2.00, 'Producto G', 100.75),
+(3, 1008, 3, 8.00, 'Producto H', 990.00),
+(3, 1009, 4, 11.00, 'Producto I', 881.00);
+
+--10
+SELECT SUM(facIVA) AS 'Total de ventas' FROM Factura;
+
+--11
+SELECT COUNT(DISTINCT cliCodigo) AS 'Cantidad de clientes' FROM Factura;
+
+--12
+SELECT COUNT(DISTINCT cliProvincia) AS 'Clientes de Tucuman' FROM Clientes WHERE cliProvincia = 'Tucuman';
+
+--13
+SELECT AVG(cajValor) AS 'Valor medio' FROM Cajas;
+
+a) Si uno de los valores es igual a cero, se lo incluira en el calculo del promedio pero disminuira el valor del promedio final.
+
+b) Si uno de los valores es igual a null, se ignorara para el calculo el promedio. Los valores igual  null no se incluyen en funciones agregadas.
+
+--14
+SELECT DISTINCT(facFechayHora), facCondicionVenta AS 'Venta' FROM Factura;
+
+--15
+SELECT cajNumReferencia, cajContenido FROM Cajas WHERE cajContenido LIKE 'Pintura%';
+
+--16
+SELECT cliCodigo, AVG(facIVA) AS 'Promedio de ventas' FROM Factura GROUP BY cliCodigo HAVING AVG(facIVA) > 30;

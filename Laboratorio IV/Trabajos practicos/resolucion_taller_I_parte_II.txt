@@ -1,0 +1,55 @@
+--1
+mysql -u root -p ClubSocial < "C:\Users\julie\OneDrive - Universidad Católica de Santiago del Estero\Escritorio\Taller1_clubsocial.sql"
+
+--2
+USE clubsocial;
+
+--3
+SELECT * FROM Afiliados WHERE afiSexo = 'M';
+
+--4
+SELECT * FROM servicios WHERE serviPrecio != 350;
+
+--5
+SELECT * FROM pagos WHERE pagoFechayHora >= '2017-01-15';
+
+--6
+SELECT * FROM Afiliados WHERE afiFechaInscripcion >= '2000-01-01' AND afiFechaInscripcion <= '2005-02-28';
+
+--7
+SELECT * FROM Afiliados WHERE afiFechaInscripcion > '2010-06-01' AND afiFechaNac < '1980-12-31';
+
+--8
+SELECT * FROM Servicios WHERE serviTipo = 'Administracion' OR serviTipo = 'Deporte';
+
+--9
+SELECT * FROM Afiliados WHERE afiApellido >= 'Perez' AND afiFechaNac > '1980-08-01' ORDER BY afiNombre DESC;
+
+--10
+SELECT * FROM Servicios WHERE serviPrecio < 1000 AND serviTipo = 'Deporte' ORDER BY serviPrecio;
+
+ALTER TABLE OrdenesDetalle ADD CONSTRAINT fk_medId FOREIGN KEY (medId) REFERENCES Medicamentos (medId) ON DELETE RESTRICT ON UPDATE NO ACTION;
+
+
+CREATE VIEW RankingdeVentasporAfiliado AS SELECT CONCAT(Afiliados.afiNom, ' ', Afiliados.afiApe) AS 'Nombre y Apellido', Departamentos.depNombre AS Departamento, SUM(Ventas.ordDetPU * Ventas.ordDetCant) AS 'Total de Venta'
+FROM AFILIADOS JOIN DEPARTAMENTOS ON AFILIADOS.depId = DEPARTAMENTOS.depId JOIN ORDENESCABECERA ON AFILIADOS.afiId = ORDENESCABECERA.afiId JOIN ORDENESDETALLE AS Ventas ON ORDENESCABECERA.ordCabId = Ventas.ordCabId GROUP BY Afiliados.afiId, Afiliados.afiNom, Afiliados.afiApe, Departamentos.depNombre ORDER BY TotaldeVenta DESC;
+
+
+
+CREATE VIEW VentasporMedicamento AS
+SELECT 
+    M.MedDescripcion AS Medicamento,
+    SUM(OD.ordDetCant) AS CantidadTotal,
+    SUM(OD.ordDetPU * OD.ordDetCant) AS TotaldeVenta
+FROM 
+    Medicamentos M
+JOIN 
+    ORDENESDETALLE OD ON M.MedId = OD.medId
+JOIN 
+    ORDENESCABECERA OC ON OD.ordCabId = OC.ordCabId
+WHERE 
+    M.MedPresentacion = 'Comprimidos' AND 
+    YEAR(OC.OrdFecha) = 2024
+GROUP BY 
+    M.MedId, M.MedDescripcion;
+	

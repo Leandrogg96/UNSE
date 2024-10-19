@@ -1,0 +1,66 @@
+--1
+DELIMITER //
+
+CREATE PROCEDURE sp_FacturacionMasAltaConIVA()
+BEGIN
+    SELECT CONCAT(f.facPtoVenta, '-', LPAD(f.facNroFactura, 8, '0')) AS NumeroComprobante,
+           SUM(fd.facDetCantidad * fd.facDetPrecUnitario * (1 + f.facIVA / 100)) AS TotalFacturado
+    FROM Factura AS f
+    JOIN FacturaDetalle AS fd ON f.facPtoVenta = fd.facPtoVenta AND f.facNroFactura = fd.facNroFactura
+    GROUP BY f.facPtoVenta, f.facNroFactura
+    ORDER BY TotalFacturado DESC
+    LIMIT 5;
+END //
+
+DELIMITER ;
+
+DELIMITER //
+
+CREATE PROCEDURE sp_FacturacionMasAltaSinIVA()
+BEGIN
+    SELECT CONCAT(f.facPtoVenta, '-', LPAD(f.facNroFactura, 8, '0')) AS NumeroComprobante,
+           SUM(fd.facDetCantidad * fd.facDetPrecUnitario) AS TotalFacturado
+    FROM Factura AS f
+    JOIN FacturaDetalle AS fd ON f.facPtoVenta = fd.facPtoVenta AND f.facNroFactura = fd.facNroFactura
+    GROUP BY f.facPtoVenta, f.facNroFactura
+    ORDER BY TotalFacturado DESC
+    LIMIT 5;
+END //
+
+
+DELIMITER ;
+
+--2
+DELIMITER //
+
+CREATE PROCEDURE sp_BuscarCajas(IN pContenido VARCHAR(100))
+BEGIN
+    SELECT 
+        c.cajNumReferencia AS NumeroReferencia,
+        c.cajContenido AS Contenido,
+        c.cajValor AS Valor,
+        a.almLugar AS LugarAlmacen
+    FROM 
+        Cajas AS c
+    JOIN 
+        Almacenes AS a ON c.Almacen = a.almCodigo
+    WHERE 
+        c.cajContenido LIKE CONCAT('%', pContenido, '%');
+END //
+
+DELIMITER ;
+
+--3
+DELIMITER //
+
+CREATE PROCEDURE sp_ClientesInsertar(IN nom VARCHAR(50), IN ape VARCHAR(50), IN fec DATE, IN dom VARCHAR(50), IN doc VARCHAR(8), IN prov VARCHAR(50), OUT IdCliente INT)
+BEGIN
+	INSERT INTO Clientes(cliNombre, cliApellido, cliFecNac, cliDomicilio, cliDNI, cliProvincia, cliFechaAlta) VALUES(nom, ape, fec, dom, doc, prov, CURDATE());
+	SET IdCliente = LAST_INSERT_ID();
+END //
+
+DELIMITER ;
+
+--4
+
+	
